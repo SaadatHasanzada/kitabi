@@ -1,11 +1,18 @@
 "use client";
 
-import { startTransition, useActionState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 
 import { PasswordField } from "@/components/auth/password-field";
 import { Button } from "@/components/ui/button";
@@ -31,7 +38,15 @@ export function RegisterForm() {
 
   const [state, formAction, isPending] = useActionState(register, null);
 
-  const errorKey = state?.errorKey ?? confirmEmailError ?? undefined;
+  const [errorKey, setErrorKey] = useState(confirmEmailError ?? undefined);
+  const [okKey, setOkKey] = useState(state?.ok);
+  const [prevState, setPrevState] = useState(state);
+
+  if (state !== prevState) {
+    setPrevState(state);
+    setErrorKey(state?.errorKey);
+    setOkKey(state?.ok);
+  }
 
   const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
@@ -53,6 +68,27 @@ export function RegisterForm() {
     formData.append("locale", locale);
     startTransition(() => formAction(formData));
   }
+
+  const isResettingRef = useRef(false);
+
+  useEffect(() => {
+    if (state?.ok) {
+      isResettingRef.current = true;
+      form.reset();
+      isResettingRef.current = false;
+    }
+  }, [state, form]);
+
+  useEffect(() => {
+    return form.subscribe({
+      formState: { values: true },
+      callback: () => {
+        if (isResettingRef.current) return;
+        setErrorKey(undefined);
+        setOkKey(undefined);
+      },
+    });
+  }, [form]);
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -106,15 +142,19 @@ export function RegisterForm() {
           placeholder={t("newPasswordPlaceholder")}
         />
       </FieldGroup>
-      {errorKey && <FieldError>{t(errorKey)}</FieldError>}
-      {state?.ok && <MutedText>{t(state.ok)}</MutedText>}
+      <FieldGroup className="mt-3">
+        {errorKey && <FieldError>{t(errorKey)}</FieldError>}
+        {okKey && <MutedText className="text-success">{t(okKey)}</MutedText>}
+      </FieldGroup>
+
       <Button
         type="submit"
         size="lg"
-        className="mt-8 w-full"
+        className="mt-6 w-full flex items-center"
         disabled={isPending}
       >
-        {t("createAccount")}
+        {isPending && <Loader className="animate-spin size-5" />}
+        {isPending ? t("creatingAccount") : t("createAccount")}
       </Button>
     </form>
   );
