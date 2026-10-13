@@ -45,7 +45,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
-          <main className="max-w-page mx-auto w-full">{children}</main>
+          <main className="max-w-page mx-auto w-full min-h-screen flex">{children}</main>
         </NextIntlClientProvider>
       </body>
     </html>

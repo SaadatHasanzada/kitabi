@@ -5,5 +5,5 @@ export default async function AuthLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   await requireGuest();
 
-  return <div className="flex flex-col desktop:flex-row">{children}</div>;
+  return <div className="flex flex-1 flex-col desktop:flex-row">{children}</div>;
 }

@@ -12,7 +12,10 @@
 # Empty means a plain `git commit` — the only case we want to draft for.
 [ -n "$2" ] && exit 0
 
-command -v claude >/dev/null 2>&1 || exit 0
+if ! command -v claude >/dev/null 2>&1; then
+  echo "prepare-commit-msg: \`claude\` not on PATH — skipping message draft" >&2
+  exit 0
+fi
 
 [ -z "$(git diff --cached --name-only)" ] && exit 0
 
@@ -29,10 +32,15 @@ body=$(git diff --cached -- . \
 
 prompt="Write a Conventional Commits message for this staged diff. First line: type(scope): summary, imperative mood, max 72 chars. Add a short body only if the reason for the change isn't obvious from the diff itself. The diff body may be truncated; use the file list for the full picture. Output only the commit message, no preamble, no backticks."
 
-if ! msg=$(printf '%s\n\n%s' "$stat" "$body" | claude -p --model haiku "$prompt" 2>&1); then
-  echo "prepare-commit-msg: couldn't draft a message — $msg" >&2
+# stderr goes to its own file: the CLI prints warnings there even on success,
+# and they'd otherwise end up as the first line of the commit message.
+err=$(mktemp)
+if ! msg=$(printf '%s\n\n%s' "$stat" "$body" | claude -p --model haiku "$prompt" 2>"$err"); then
+  echo "prepare-commit-msg: couldn't draft a message — $(cat "$err")" >&2
+  rm -f "$err"
   exit 0
 fi
+rm -f "$err"
 
 [ -z "$msg" ] && exit 0
 
