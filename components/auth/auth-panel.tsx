@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const authPanelVariants = cva(
-  "flex flex-1 flex-col max-w-200 py-8 md:px-10 desktop:px-20 desktop:pb-14",
+  "flex flex-1 flex-col py-8 md:px-10 desktop:px-20 desktop:pb-14",
   {
     variants: {
       variant: {

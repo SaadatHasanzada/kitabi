@@ -27,14 +27,11 @@ export const registerSchema = z
       .regex(/\d/, { error: "passwordMissingNumber" })
       .regex(/[^A-Za-z0-9]/, { error: "passwordMissingSymbol" }),
   })
-  .refine((data) => data.password !== data.email, {
-    error: "passwordMatchesProfile",
-    path: ["password"],
-  })
-  .refine((data) => data.password !== data.displayName, {
-    error: "passwordMatchesProfile",
-    path: ["password"],
-  });
+  .refine(
+    (data) =>
+      data.password !== data.email && data.password !== data.displayName,
+    { error: "passwordMatchesProfile", path: ["password"] },
+  );
 
 export type LoginValues = z.infer<typeof loginSchema>;
 export type RegisterValues = z.infer<typeof registerSchema>;

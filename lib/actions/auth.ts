@@ -15,6 +15,7 @@ import {
   loginSchema,
   LoginValues,
   registerSchema,
+  RegisterValues,
 } from "@/lib/validation/auth";
 
 export type AuthState = { errorKey?: string; ok?: string } | null;
@@ -26,9 +27,21 @@ function resolveSignUpErrorKey(error: unknown): string {
   return "genericError";
 }
 
-export async function login(values: LoginValues): Promise<AuthState> {
+function resolveSignInErrorKey(code: string | undefined): string {
+  if (code === "invalid_credentials") return "invalidCredentials";
+  if (code === "email_not_confirmed") return "emailNotConfirmed";
+  if (code === "over_request_rate_limit") return "tooManyAttempts";
+  return "genericError";
+}
+
+export async function login(
+  _p: AuthState,
+  values: LoginValues & { locale: Locale },
+): Promise<AuthState> {
   const supabase = await createClient();
-  const locale = await getLocale();
+  const locale = hasLocale(routing.locales, values.locale)
+    ? values.locale
+    : routing.defaultLocale;
 
   const parsed = loginSchema.safeParse(values);
   if (!parsed.success) {
@@ -38,11 +51,7 @@ export async function login(values: LoginValues): Promise<AuthState> {
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
 
   if (error) {
-    return {
-      errorKey: error.message.includes("Invalid login")
-        ? "invalidCredentials"
-        : "genericError",
-    };
+    return { errorKey: resolveSignInErrorKey(error.code) };
   }
 
   revalidatePath("/", "layout");
@@ -51,17 +60,15 @@ export async function login(values: LoginValues): Promise<AuthState> {
 
 export async function register(
   _p: AuthState,
-  formData: FormData,
+  values: RegisterValues & { locale: Locale },
 ): Promise<AuthState> {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
-  let locale = formData.get("locale");
+  const locale = hasLocale(routing.locales, values.locale)
+    ? values.locale
+    : routing.defaultLocale;
 
-  if (!hasLocale(routing.locales, locale)) {
-    locale = routing.defaultLocale;
-  }
-
-  const parsed = registerSchema.safeParse(Object.fromEntries(formData));
+  const parsed = registerSchema.safeParse(values);
   if (!parsed.success) {
     return { errorKey: "genericError" };
   }

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  startTransition,
-  useActionState,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -38,15 +32,12 @@ export function RegisterForm() {
 
   const [state, formAction, isPending] = useActionState(register, null);
 
-  const [errorKey, setErrorKey] = useState(confirmEmailError ?? undefined);
-  const [okKey, setOkKey] = useState(state?.ok);
-  const [prevState, setPrevState] = useState(state);
+  const [hidden, setHidden] = useState(false);
+  const showMessage = !hidden && !isPending;
 
-  if (state !== prevState) {
-    setPrevState(state);
-    setErrorKey(state?.errorKey);
-    setOkKey(state?.ok);
-  }
+  const urlError =
+    confirmEmailError && t.has(confirmEmailError) ? confirmEmailError : null;
+  const errorKey = state ? state.errorKey : urlError;
 
   const form = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
@@ -59,39 +50,19 @@ export function RegisterForm() {
   });
 
   function onSubmit(data: RegisterValues) {
-    const formData = new FormData();
-
-    for (const [key, value] of Object.entries(data)) {
-      formData.append(key, value);
-    }
-
-    formData.append("locale", locale);
-    startTransition(() => formAction(formData));
+    setHidden(false);
+    startTransition(() => formAction({ ...data, locale }));
   }
 
-  const isResettingRef = useRef(false);
-
   useEffect(() => {
-    if (state?.ok) {
-      isResettingRef.current = true;
-      form.reset();
-      isResettingRef.current = false;
-    }
+    if (state?.ok) form.reset();
   }, [state, form]);
 
-  useEffect(() => {
-    return form.subscribe({
-      formState: { values: true },
-      callback: () => {
-        if (isResettingRef.current) return;
-        setErrorKey(undefined);
-        setOkKey(undefined);
-      },
-    });
-  }, [form]);
-
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form
+      onChange={() => setHidden(true)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <FieldGroup>
         <Controller
           name="displayName"
@@ -143,8 +114,10 @@ export function RegisterForm() {
         />
       </FieldGroup>
       <FieldGroup className="mt-3">
-        {errorKey && <FieldError>{t(errorKey)}</FieldError>}
-        {okKey && <MutedText className="text-success">{t(okKey)}</MutedText>}
+        {showMessage && errorKey && <FieldError>{t(errorKey)}</FieldError>}
+        {showMessage && state?.ok && (
+          <MutedText className="text-success">{t(state.ok)}</MutedText>
+        )}
       </FieldGroup>
 
       <Button

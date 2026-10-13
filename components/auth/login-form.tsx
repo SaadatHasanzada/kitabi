@@ -1,9 +1,11 @@
 "use client";
 
+import { startTransition, useActionState, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 
 import { PasswordField } from "@/components/auth/password-field";
 import { Button } from "@/components/ui/button";
@@ -14,12 +16,19 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { login } from "@/lib/actions/auth";
 import { EMAIL_PLACEHOLDER } from "@/lib/constants";
 import { loginSchema, type LoginValues } from "@/lib/validation/auth";
 
 export function LoginForm() {
   const t = useTranslations("Auth");
   const tv = useTranslations("Validation");
+  const locale = useLocale();
+
+  const [state, formAction, isPending] = useActionState(login, null);
+
+  const [hidden, setHidden] = useState(false);
+  const showMessage = !hidden && !isPending;
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -31,12 +40,15 @@ export function LoginForm() {
   });
 
   function onSubmit(data: LoginValues) {
-    // Do something with the form values.
-    console.log(data);
+    setHidden(false);
+    startTransition(() => formAction({ ...data, locale }));
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form
+      onChange={() => setHidden(true)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <FieldGroup>
         <Controller
           name="email"
@@ -67,8 +79,18 @@ export function LoginForm() {
           showForgotPassword
         />
       </FieldGroup>
-      <Button type="submit" size="lg" className="mt-8 w-full">
-        {t("signIn")}
+      {showMessage && state?.errorKey && (
+        <FieldError className="mt-3">{t(state.errorKey)}</FieldError>
+      )}
+
+      <Button
+        type="submit"
+        size="lg"
+        className="mt-8 w-full flex items-center"
+        disabled={isPending}
+      >
+        {isPending && <Loader className="animate-spin size-5" />}
+        {isPending ? t("signingIn") : t("signIn")}
       </Button>
     </form>
   );
