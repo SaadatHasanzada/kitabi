@@ -16,9 +16,15 @@ import {
   LoginValues,
   registerSchema,
   RegisterValues,
+  resetPasswordSchema,
+  ResetPasswordValues,
 } from "@/lib/validation/auth";
 
-export type AuthState = { errorKey?: string; ok?: string } | null;
+export type AuthState = {
+  errorKey?: string;
+  ok?: string;
+  email?: string;
+} | null;
 
 function resolveSignUpErrorKey(error: unknown): string {
   if (isAuthWeakPasswordError(error)) return "passwordRejected";
@@ -119,4 +125,26 @@ export async function signOut() {
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
   redirect({ href: "/", locale });
+}
+
+export async function resetPassword(
+  _p: AuthState,
+  values: ResetPasswordValues,
+): Promise<AuthState> {
+  const supabase = await createClient();
+
+  const parsed = resetPasswordSchema.safeParse(values);
+  if (!parsed.success) {
+    return { errorKey: "genericError" };
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    parsed.data.email,
+  );
+
+  if (error) {
+    return { errorKey: resolveSignUpErrorKey(error) };
+  }
+
+  return { ok: "resetLinkSent", email: parsed.data.email };
 }

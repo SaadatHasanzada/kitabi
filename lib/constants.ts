@@ -25,3 +25,5 @@ export const navItems = [
 ] as const;
 
 export const LOGIN_QUOTE_AUTHOR = "Clarissa Pinkola Estés";
+
+export const RESEND_COOLDOWN_SECONDS = 60;

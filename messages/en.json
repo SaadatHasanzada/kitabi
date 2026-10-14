@@ -55,6 +55,18 @@
     "freeToKeep": "free, and yours to keep",
     "startReadingList": "Start your reading list.",
     "oneAccountSync": "One account keeps your shelf in sync across every device you read on.",
+    "happensToEveryReader": "it happens to every reader",
+    "forgotYourPassword": "Forgot your password?",
+    "resetPasswordDescription": "Enter the email you signed up with and we will send you a link to choose a new one.",
+    "backToLogin": "Back to sign in",
+    "sendResetLink": "Send reset link",
+    "sendingResetLink": "Sending…",
+    "resendLink": "Resend link",
+    "resendLinkIn": "Resend in {seconds}s",
+    "useDifferentEmail": "Use a different email",
+    "checkSpamHint": "Nothing after a few minutes? Check your spam folder.",
+    "checkYourInbox": "Check your inbox.",
+    "resetLinkSentDescription": "If an account exists for <b>{email}</b>, a reset link is on its way. It expires in one hour.",
     "threeThingsRightAway": "Three things you get right away.",
     "searchOpenLibraryTitle": "Search all of Open Library",
     "searchOpenLibraryDescription": "Millions of titles, covers and authors, no catalogue of our own.",
@@ -73,6 +85,7 @@
     "passwordMissingNumber": "Add a number.",
     "passwordMissingSymbol": "Add a symbol.",
     "passwordMatchesProfile": "Password can't be your email or name.",
-    "displayNameTooShort": "Use at least 2 characters."
+    "displayNameTooShort": "Use at least 2 characters.",
+    "passwordsDoNotMatch": "Passwords don't match."
   }
 }

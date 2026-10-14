@@ -45,7 +45,7 @@ export function PasswordField<T extends FieldValues>({
           <div className="flex items-center justify-between">
             <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
             {showForgotPassword && (
-              <TextLink href="/forgot-password">{t("forgotPassword")}</TextLink>
+              <TextLink href="/reset-password">{t("forgotPassword")}</TextLink>
             )}
           </div>
           <InputGroup>

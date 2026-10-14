@@ -55,6 +55,18 @@
     "freeToKeep": "pulsuz və sizə məxsus",
     "startReadingList": "Oxu siyahınızı başladın.",
     "oneAccountSync": "Rəfinizi oxuduğunuz bütün cihazlarda sinxron saxlayacaq bir hesab.",
+    "happensToEveryReader": "hər oxucunun başına gəlir",
+    "forgotYourPassword": "Şifrənizi unutmusunuz?",
+    "resetPasswordDescription": "Qeydiyyatdan keçdiyiniz e-poçtu daxil edin, yeni şifrə təyin etmək üçün sizə bərpa linkini göndərək.",
+    "backToLogin": "Daxil ol",
+    "sendResetLink": "Şifrəni bərpa edin",
+    "sendingResetLink": "Göndərilir…",
+    "resendLink": "Linki yenidən göndər",
+    "resendLinkIn": "{seconds}s sonra yenidən göndər",
+    "useDifferentEmail": "Başqa e-poçt istifadə et",
+    "checkSpamHint": "Bir neçə dəqiqə sonra da gəlmədi? Spam qovluğunuzu yoxlayın.",
+    "checkYourInbox": "Gələnlər qutunuzu yoxlayın.",
+    "resetLinkSentDescription": "Əgər <b>{email}</b> üçün hesab varsa, bərpa linki yoldadır. Link bir saat ərzində etibarlıdır.",
     "threeThingsRightAway": "Dərhal əldə edəcəyiniz üç şey.",
     "searchOpenLibraryTitle": "Open Library-də axtarın",
     "searchOpenLibraryDescription": "Milyonlarla kitab adı, üz qabığı və müəllif — öz kataloqumuz yoxdur.",
@@ -73,6 +85,7 @@
     "passwordMissingNumber": "Rəqəm əlavə edin.",
     "passwordMissingSymbol": "Simvol əlavə edin.",
     "passwordMatchesProfile": "Şifrə e-poçtunuz və ya adınızla eyni ola bilməz.",
-    "displayNameTooShort": "Ən azı 2 simvol istifadə edin."
+    "displayNameTooShort": "Ən azı 2 simvol istifadə edin.",
+    "passwordsDoNotMatch": "Şifrələr eyni deyil."
   }
 }
