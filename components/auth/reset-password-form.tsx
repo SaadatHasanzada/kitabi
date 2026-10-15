@@ -1,19 +1,13 @@
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 
+import { EmailField } from "@/components/auth/email-field";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { FieldError, FieldGroup } from "@/components/ui/field";
 import type { AuthState } from "@/lib/actions/auth";
-import { EMAIL_PLACEHOLDER } from "@/lib/constants";
 import {
   resetPasswordSchema,
   type ResetPasswordValues,
@@ -31,7 +25,6 @@ export function ResetPasswordForm({
   isPending,
 }: ResetPasswordFormProps) {
   const t = useTranslations("Auth");
-  const tv = useTranslations("Validation");
 
   const form = useForm<ResetPasswordValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -44,27 +37,7 @@ export function ResetPasswordForm({
   return (
     <form onSubmit={form.handleSubmit(formAction)}>
       <FieldGroup>
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>{t("email")}</FieldLabel>
-              <Input
-                {...field}
-                id={field.name}
-                aria-invalid={fieldState.invalid}
-                type="email"
-                placeholder={EMAIL_PLACEHOLDER}
-                autoComplete="username"
-                className="px-5"
-              />
-              {fieldState.error?.message && (
-                <FieldError>{tv(fieldState.error.message)}</FieldError>
-              )}
-            </Field>
-          )}
-        />
+        <EmailField control={form.control} />
       </FieldGroup>
       {state?.errorKey && (
         <FieldError className="mt-3">{t(state.errorKey)}</FieldError>

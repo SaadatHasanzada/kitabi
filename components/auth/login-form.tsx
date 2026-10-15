@@ -1,28 +1,21 @@
 "use client";
 
 import { startTransition, useActionState, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 
+import { EmailField } from "@/components/auth/email-field";
 import { PasswordField } from "@/components/auth/password-field";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { FieldError, FieldGroup } from "@/components/ui/field";
 import { login } from "@/lib/actions/auth";
-import { EMAIL_PLACEHOLDER } from "@/lib/constants";
 import { loginSchema, type LoginValues } from "@/lib/validation/auth";
 
 export function LoginForm() {
   const t = useTranslations("Auth");
-  const tv = useTranslations("Validation");
   const locale = useLocale();
 
   const [state, formAction, isPending] = useActionState(login, null);
@@ -50,27 +43,7 @@ export function LoginForm() {
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FieldGroup>
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>{t("email")}</FieldLabel>
-              <Input
-                {...field}
-                id={field.name}
-                aria-invalid={fieldState.invalid}
-                type="email"
-                placeholder={EMAIL_PLACEHOLDER}
-                autoComplete="username"
-                className="px-5"
-              />
-              {fieldState.error?.message && (
-                <FieldError>{tv(fieldState.error.message)}</FieldError>
-              )}
-            </Field>
-          )}
-        />
+        <EmailField control={form.control} />
         <PasswordField
           control={form.control}
           name="password"

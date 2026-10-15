@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 
+import { EmailField } from "@/components/auth/email-field";
 import { PasswordField } from "@/components/auth/password-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { MutedText } from "@/components/ui/muted-text";
 import { register } from "@/lib/actions/auth";
-import { EMAIL_PLACEHOLDER } from "@/lib/constants";
 import { registerSchema, type RegisterValues } from "@/lib/validation/auth";
 
 export function RegisterForm() {
@@ -85,27 +85,7 @@ export function RegisterForm() {
             </Field>
           )}
         />
-        <Controller
-          name="email"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>{t("email")}</FieldLabel>
-              <Input
-                {...field}
-                id={field.name}
-                aria-invalid={fieldState.invalid}
-                type="email"
-                placeholder={EMAIL_PLACEHOLDER}
-                autoComplete="username"
-                className="px-5"
-              />
-              {fieldState.error?.message && (
-                <FieldError>{tv(fieldState.error.message)}</FieldError>
-              )}
-            </Field>
-          )}
-        />
+        <EmailField control={form.control} />
         <PasswordField
           control={form.control}
           name="password"

@@ -43,3 +43,10 @@ next-env.d.ts
 
 # agents
 .agents/
+
+# local tooling
+.githooks/
+.vscode/
+docs/
+CLAUDE.md
+skills-lock.json

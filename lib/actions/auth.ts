@@ -26,7 +26,7 @@ export type AuthState = {
   email?: string;
 } | null;
 
-function resolveSignUpErrorKey(error: unknown): string {
+function resolveEmailErrorKey(error: unknown): string {
   if (isAuthWeakPasswordError(error)) return "passwordRejected";
   if (isAuthApiError(error) && error.code === "over_email_send_rate_limit")
     return "tooManyRequests";
@@ -96,12 +96,12 @@ export async function register(
     }
 
     if (error) {
-      return { errorKey: resolveSignUpErrorKey(error) };
+      return { errorKey: resolveEmailErrorKey(error) };
     }
 
     return { ok: "checkEmail" };
   } catch (error) {
-    return { errorKey: resolveSignUpErrorKey(error) };
+    return { errorKey: resolveEmailErrorKey(error) };
   }
 }
 
@@ -143,7 +143,7 @@ export async function resetPassword(
   );
 
   if (error) {
-    return { errorKey: resolveSignUpErrorKey(error) };
+    return { errorKey: resolveEmailErrorKey(error) };
   }
 
   return { ok: "resetLinkSent", email: parsed.data.email };
