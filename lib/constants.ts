@@ -27,3 +27,5 @@ export const navItems = [
 export const LOGIN_QUOTE_AUTHOR = "Clarissa Pinkola Estés";
 
 export const RESEND_COOLDOWN_SECONDS = 60;
+
+export const LINK_TYPES = new Set(["recovery", "signup"]);
