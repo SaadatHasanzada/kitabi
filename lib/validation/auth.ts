@@ -39,7 +39,7 @@ export const resetPasswordSchema = z.object({
   email,
 });
 
-export const resetPasswordConfirmSchema = z
+export const updatePasswordSchema = z
   .object({
     password,
     confirmPassword: z.string().min(1, { error: "required" }),
@@ -52,6 +52,4 @@ export const resetPasswordConfirmSchema = z
 export type LoginValues = z.infer<typeof loginSchema>;
 export type RegisterValues = z.infer<typeof registerSchema>;
 export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
-export type ResetPasswordConfirmValues = z.infer<
-  typeof resetPasswordConfirmSchema
->;
+export type UpdatePasswordValues = z.infer<typeof updatePasswordSchema>;

@@ -18,6 +18,8 @@ import {
   RegisterValues,
   resetPasswordSchema,
   ResetPasswordValues,
+  updatePasswordSchema,
+  UpdatePasswordValues,
 } from "@/lib/validation/auth";
 
 export type AuthState = {
@@ -26,7 +28,7 @@ export type AuthState = {
   email?: string;
 } | null;
 
-function resolveEmailErrorKey(error: unknown): string {
+function resolveAuthErrorKey(error: unknown): string {
   if (isAuthWeakPasswordError(error)) return "passwordRejected";
   if (isAuthApiError(error) && error.code === "over_email_send_rate_limit")
     return "tooManyRequests";
@@ -96,12 +98,12 @@ export async function register(
     }
 
     if (error) {
-      return { errorKey: resolveEmailErrorKey(error) };
+      return { errorKey: resolveAuthErrorKey(error) };
     }
 
     return { ok: "checkEmail" };
   } catch (error) {
-    return { errorKey: resolveEmailErrorKey(error) };
+    return { errorKey: resolveAuthErrorKey(error) };
   }
 }
 
@@ -143,8 +145,35 @@ export async function resetPassword(
   );
 
   if (error) {
-    return { errorKey: resolveEmailErrorKey(error) };
+    return { errorKey: resolveAuthErrorKey(error) };
   }
 
   return { ok: "resetLinkSent", email: parsed.data.email };
+}
+
+export async function updatePassword(
+  _p: AuthState,
+  values: UpdatePasswordValues,
+): Promise<AuthState> {
+  const supabase = await createClient();
+
+  const { data } = await supabase.auth.getClaims();
+  if (!data?.claims) return { errorKey: "linkExpired" };
+
+  const parsed = updatePasswordSchema.safeParse(values);
+
+  if (!parsed.success) {
+    return { errorKey: "genericError" };
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: parsed.data.password,
+  });
+
+  if (error) {
+    if (error.code === "same_password") return { errorKey: "samePassword" };
+    return { errorKey: resolveAuthErrorKey(error) };
+  }
+
+  return { ok: "passwordUpdated" };
 }

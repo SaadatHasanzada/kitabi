@@ -22,6 +22,7 @@ interface PasswordFieldProps<T extends FieldValues> {
   readonly autoComplete: "current-password" | "new-password";
   readonly placeholder: string;
   readonly showForgotPassword?: boolean;
+  readonly label?: string;
 }
 
 export function PasswordField<T extends FieldValues>({
@@ -30,6 +31,7 @@ export function PasswordField<T extends FieldValues>({
   autoComplete,
   placeholder,
   showForgotPassword = false,
+  label = "password",
 }: PasswordFieldProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,7 +45,7 @@ export function PasswordField<T extends FieldValues>({
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <div className="flex items-center justify-between">
-            <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
+            <FieldLabel htmlFor={name}>{t(label)}</FieldLabel>
             {showForgotPassword && (
               <TextLink href="/reset-password">{t("forgotPassword")}</TextLink>
             )}
@@ -52,7 +54,7 @@ export function PasswordField<T extends FieldValues>({
             <InputGroupInput
               type={showPassword ? "text" : "password"}
               {...field}
-              id={field.name}
+              id={name}
               aria-invalid={fieldState.invalid}
               placeholder={placeholder}
               autoComplete={autoComplete}

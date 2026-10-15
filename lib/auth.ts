@@ -12,11 +12,12 @@ async function getAuthContext() {
   return { claims: data?.claims, locale };
 }
 
-export async function requireUser() {
+export async function requireUser(redirectTo?: string) {
   const { claims, locale } = await getAuthContext();
+  const redirectUrl = redirectTo ?? "/login";
 
   if (!claims) {
-    return redirect({ href: "/login", locale });
+    return redirect({ href: redirectUrl, locale });
   }
 
   return claims;

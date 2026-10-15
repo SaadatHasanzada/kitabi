@@ -52,7 +52,7 @@ export function ResetPasswordFlow() {
           variant="outline"
           size="lg"
           disabled={isPending || cooldown > 0}
-          className="text-brand hover:text-brand font-bold px-6"
+          className="text-brand hover:text-brand font-bold"
           onClick={() => sendLink({ email: state.email ?? "" })}
         >
           {isPending && <Loader className="animate-spin size-5" />}
