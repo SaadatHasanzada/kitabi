@@ -3,12 +3,11 @@ import { useTranslations } from "next-intl";
 import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthHeader } from "@/components/auth/auth-header";
 import { AuthPanel } from "@/components/auth/auth-panel";
+import { AuthTopBar } from "@/components/auth/auth-top-bar";
 import { BookStack } from "@/components/auth/book-stack";
 import { GoogleButton } from "@/components/auth/google-button";
 import { LoginForm } from "@/components/auth/login-form";
 import { LoginQuote } from "@/components/auth/login-quote";
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
-import { Logo } from "@/components/layout/logo";
 import { MutedText } from "@/components/ui/muted-text";
 import { TextLink } from "@/components/ui/text-link";
 
@@ -19,10 +18,7 @@ export default function Login() {
   return (
     <>
       <AuthPanel>
-        <div className="flex justify-between items-center">
-          <Logo />
-          <LocaleSwitcher />
-        </div>
+        <AuthTopBar />
         <div className="flex flex-col gap-6">
           <AuthHeader
             eyebrow="welcomeBack"
