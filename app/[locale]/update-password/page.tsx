@@ -1,18 +1,11 @@
-import { getTranslations } from "next-intl/server";
-
-import { ArrowLeft } from "lucide-react";
-
 import { AuthPanel } from "@/components/auth/auth-panel";
 import { UpdatePasswordFlow } from "@/components/auth/update-password-flow";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { Logo } from "@/components/layout/logo";
-import { TextLink } from "@/components/ui/text-link";
 import { requireUser } from "@/lib/auth";
 
 export default async function UpdatePasswordPage() {
   await requireUser("/link-expired?type=recovery");
-
-  const t = await getTranslations("Auth");
 
   return (
     <div className="flex flex-1 flex-col desktop:flex-row">

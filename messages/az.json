@@ -21,7 +21,6 @@
   },
   "Auth": {
     "signIn": "Daxil ol",
-    "signUp": "Hesab yarat",
     "signOut": "Çıxış",
     "continueWithGoogle": "Google ilə davam et",
     "displayName": "Ad",
@@ -30,7 +29,6 @@
     "password": "Şifrə",
     "newPassword": "Yeni şifrə",
     "confirmPassword": "Yeni şifrəni təsdiqləyin",
-    "noAccount": "Hesabınız yoxdur?",
     "haveAccount": "Hesabınız var?",
     "checkEmail": "Hesabınızı təsdiqləmək üçün e-poçtunuzu yoxlayın.",
     "invalidCredentials": "E-poçt və ya şifrə yanlışdır.",
@@ -45,7 +43,6 @@
     "signInToShelf": "Rəfinizə daxil olun",
     "yourReadingList": "Oxu siyahınız, statuslarınız və bitirdiyiniz kitablar qaldığınız yerdə gözləyir.",
     "forgotPassword": "Şifrənizi unutmusunuz?",
-    "keepMeSignedIn": "Bu cihazda məni daxil olmuş saxla",
     "newHere": "Yenisiniz?",
     "createAccount": "Hesab yaradın",
     "creatingAccount": "Hesab yaradılır…",
