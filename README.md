@@ -1,4 +1,4 @@
-# Kitabthrift
+# Kitabi
 
 Your reading life, organized. A Next.js book app, fully localized in English and
 Azerbaijani.

@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect as externalRedirect } from "next/navigation";
 import { hasLocale, Locale } from "next-intl";
-import { getLocale } from "next-intl/server";
 
 import { isAuthApiError, isAuthWeakPasswordError } from "@supabase/supabase-js";
 
@@ -121,9 +120,11 @@ export async function signInWithGoogle(locale: Locale) {
   if (data?.url) externalRedirect(data.url);
 }
 
-export async function signOut() {
+export async function signOut(value: string) {
+  const locale = hasLocale(routing.locales, value)
+    ? value
+    : routing.defaultLocale;
   const supabase = await createClient();
-  const locale = await getLocale();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
   redirect({ href: "/", locale });

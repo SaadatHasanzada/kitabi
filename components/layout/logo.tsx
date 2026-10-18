@@ -14,7 +14,7 @@ export function Logo() {
         alt="Logo"
       />
       <span className="font-logo text-brand text-3xl desktop:text-4xl">
-        kitabthrift
+        kitabi
       </span>
     </Link>
   );
