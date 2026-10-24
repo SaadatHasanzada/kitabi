@@ -42,7 +42,7 @@ export function LocaleSwitcher() {
       <SelectTrigger
         aria-label={t("changeLanguage")}
         showIcon={false}
-        className="w-full max-w-19.5 p-2 rounded-full hover:bg-muted flex items-center justify-center text-brand font-bold"
+        className="w-19.5 p-2 rounded-full hover:bg-muted flex items-center justify-center text-brand font-bold"
       >
         <Globe />
         <SelectValue className="flex-none">

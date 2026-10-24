@@ -6,10 +6,12 @@
   "Nav": {
     "explore": "Kəşf et",
     "myBooks": "Kitablarım",
-    "menu": "Menyu",
     "search": "Bütün kitablarda axtar...",
-    "signedInAs": "{name} kimi daxil olub",
-    "changeLanguage": "Dili dəyiş"
+    "changeLanguage": "Dili dəyiş",
+    "accountMenu": "Hesab menyusu",
+    "profilePhoto": "Profil şəkli",
+    "reader": "Oxucu",
+    "settings": "Parametrlər"
   },
   "MyBooksPage": {
     "comingSoon": "Kitablarım tezliklə."

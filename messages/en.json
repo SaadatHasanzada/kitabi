@@ -6,10 +6,12 @@
   "Nav": {
     "explore": "Explore",
     "myBooks": "My Books",
-    "menu": "Menu",
     "search": "Search all books...",
-    "signedInAs": "Signed in as {name}",
-    "changeLanguage": "Change language"
+    "changeLanguage": "Change language",
+    "accountMenu": "Account menu",
+    "profilePhoto": "Profile photo",
+    "reader": "Reader",
+    "settings": "Settings"
   },
   "MyBooksPage": {
     "comingSoon": "My Books coming soon."

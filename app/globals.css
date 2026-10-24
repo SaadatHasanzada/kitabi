@@ -115,6 +115,8 @@
   --color-status-finished: var(--status-finished);
   --color-status-left: var(--status-left);
 
+  --shadow-halo: 0 0 0 4px color-mix(in oklch, var(--brand) 12%, transparent);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -126,9 +128,6 @@
 
 .active {
   text-decoration-color: currentColor;
-}
-.active-mobile {
-  color: var(--brand-accent);
 }
 
 @layer base {

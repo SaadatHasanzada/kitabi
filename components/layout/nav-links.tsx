@@ -12,7 +12,7 @@ interface NavLinksProps {
   readonly showIcon?: boolean;
 }
 
-export default function NavLinks({
+export function NavLinks({
   className = "",
   itemClassName,
   activeClassName = "active",

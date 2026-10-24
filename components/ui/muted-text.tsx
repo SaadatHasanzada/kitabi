@@ -14,6 +14,9 @@ const mutedTextVariants = cva("text-foreground/60", {
       // Divider labels and other uppercase micro-copy.
       xs: "text-xs font-bold",
     },
+    truncate: {
+      true: "truncate",
+    },
   },
   defaultVariants: {
     size: "default",
@@ -29,13 +32,14 @@ type MutedTextProps = ComponentProps<"p"> &
 export function MutedText({
   as: Component = "p",
   size,
+  truncate,
   className,
   ...props
 }: MutedTextProps) {
   return (
     <Component
       data-slot="muted-text"
-      className={cn(mutedTextVariants({ size }), className)}
+      className={cn(mutedTextVariants({ size, truncate }), className)}
       {...props}
     />
   );
