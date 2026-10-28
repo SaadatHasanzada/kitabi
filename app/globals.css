@@ -116,6 +116,7 @@
   --color-status-left: var(--status-left);
 
   --shadow-halo: 0 0 0 4px color-mix(in oklch, var(--brand) 12%, transparent);
+  --shadow-float: 0 10px 28px color-mix(in oklch, var(--foreground) 20%, transparent);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
